@@ -64,6 +64,12 @@ jobs:
       matrix: 
         server: ${{ fromJson(needs.get-config-settings.outputs.servers) }}
     steps:
-      - name: Log into server
-        run:
-          echo "OK"
+      - name: Setup Docker in server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ matrix.server.host }}
+          username: ${{ matrix.server.username }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ matrix.server.port }}
+          script: |
+            echo ok > /tmp/ok.txt
