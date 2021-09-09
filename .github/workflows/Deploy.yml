@@ -54,7 +54,7 @@ jobs:
     needs: get-config
     strategy:
       matrix: 
-        server: ${{ fromJson(jobs.deploy.steps.env) }}
+        server: ${{ fromJson(jobs.get-config.steps.env) }}
     steps:
       - name: Log into server
         run:
