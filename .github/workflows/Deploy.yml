@@ -46,6 +46,6 @@ jobs:
       CONFIG: ${{ secrets.DEPLOYMENT_SERVERS }}
     strategy:
       matrix:
-        server: ${{ fromJson(jobs.deploy.env.CONFIG) }}
+        server: ${{ fromJson($CONFIG) }}
     steps:
       - run: echo "ok"
