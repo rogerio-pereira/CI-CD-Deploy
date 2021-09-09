@@ -5,6 +5,9 @@ on:
   pull_request:
     branches:
       - master
+
+env: 
+  CONFIG: ${{ secrets.DEPLOYMENT_SERVERS }}
       
 jobs:
   run-tests:
@@ -38,23 +41,28 @@ jobs:
         
       - name: Run tests
         run: php artisan test
-  
-  get-config:
+        
+  get-config-settings:
     runs-on: ubuntu-latest
     needs: run-tests
+    outputs:
+      servers: ${{ steps.export-servers.outputs.servers }}
     steps:
-      - name: Get Config JSON
-        env: 
-          CONFIG: ${{ secrets.DEPLOYMENT_SERVERS }}
-        run:
-          echo "OK"
+      - name: Export deployment matrix
+        id: export-servers
+        run: |
+            JSON="$(cat ./.github/servers.json)"
+            JSON="${JSON//'%'/'%25'}"
+            JSON="${JSON//$'\n'/'%0A'}"
+            JSON="${JSON//$'\r'/'%0D'}"
+            echo "::set-output name=servers::$JSON"
         
   deploy:
     runs-on: ubuntu-latest
-    needs: get-config
+    needs: get-config-settings
     strategy:
       matrix: 
-        server: ${{ fromJson(jobs.get-config.steps.env) }}
+        server: ${{ fromJson(needs.get-config-settings.outputs.servers) }}
     steps:
       - name: Log into server
         run:
