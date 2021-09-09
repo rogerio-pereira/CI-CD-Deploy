@@ -22,7 +22,7 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: 7.4
-          extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml, zip
+          extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml, zip, sqlite3
   
       - name: Copy ENV file
         shell: bash
