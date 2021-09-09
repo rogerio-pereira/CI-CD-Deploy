@@ -27,8 +27,8 @@ jobs:
       - name: Copy ENV file
         shell: bash
         env:
-          SSH_KEY: ${{ secrets.LARAVEL_ENV }}
-        run: 'echo "$SSH_KEY" > .env'
+          ENV_FILE: ${{ secrets.LARAVEL_ENV }}
+        run: 'echo "$ENV_FILE" > .env'
           
       - name: Install composer dependencies
         run: composer install
@@ -43,9 +43,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: run-tests
     env:
-      SERVER_CONFIG: ${{ secrets.LARAVEL_ENV }}
+      CONFIG: ${{ secrets.DEPLOYMENT_SERVERS }}
     strategy:
       matrix:
-        server: ${{ fromJson(env.SERVER_CONFIG) }}
+        server: ${{ fromJson(env.CONFIG) }}
     steps:
       - run: echo "ok"
