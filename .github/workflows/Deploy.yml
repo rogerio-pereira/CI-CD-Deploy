@@ -69,4 +69,4 @@ jobs:
     steps:
       - name: Log into server
         run:
-          echo "OK"
+          echo matrix.server.name
