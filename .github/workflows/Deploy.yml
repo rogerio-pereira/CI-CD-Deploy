@@ -27,6 +27,16 @@ jobs:
       - name: Install composer dependencies
         run: composer install
         
+      - name: Generate key
+        run: php artisan key:generate
+        
+      - name: Clear Cachem Config and Views
+        run: |
+          php artisan cache:clear
+          php artisan config:clear
+          php artisan view:clear
+          php arttisan config:cache
+        
       - name: Run tests
         run: php artisan test
         
