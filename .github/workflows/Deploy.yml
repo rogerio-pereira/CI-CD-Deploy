@@ -22,10 +22,26 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: 7.4
-          extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml
+          extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml, zip, sqlite3
+  
+      - name: Copy ENV file
+        shell: bash
+        env:
+          SSH_KEY: ${{ secrets.LARAVEL_ENV }}
+        run: 'echo "$SSH_KEY" > .env'
           
       - name: Install composer dependencies
         run: composer install
+        
+      - name: Generate key
+        run: php artisan key:generate
+        
+      - name: Clear Cache, Config and Views
+        run: |
+          php artisan cache:clear
+          php artisan config:clear
+          php artisan view:clear
+          php artisan config:cache
         
       - name: Run tests
         run: php artisan test
