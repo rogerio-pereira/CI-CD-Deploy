@@ -46,6 +46,6 @@ jobs:
       SERVER_CONFIG: ${{ secrets.LARAVEL_ENV }}
     strategy:
       matrix:
-        server: ${{ fromJson(${SERVER_CONFIG}) }}
+        server: ${{ fromJson(env.SERVER_CONFIG) }}
     steps:
       - run: echo "ok"
