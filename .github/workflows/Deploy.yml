@@ -27,6 +27,9 @@ jobs:
       - name: Install composer dependencies
         run: composer install
         
+      - name: Copy ENV file
+        run: printf ${{ secrets.LARAVEL_ENV }} >> .env
+        
       - name: Generate key
         run: php artisan key:generate
         
