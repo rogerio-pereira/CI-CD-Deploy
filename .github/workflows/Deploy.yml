@@ -51,7 +51,7 @@ jobs:
       - name: Export deployment matrix
         id: export-servers
         run: |
-            JSON="$(cat ./servers.json)"
+            JSON="$(cat ./.github/servers.json)"
             JSON="${JSON//'%'/'%25'}"
             JSON="${JSON//$'\n'/'%0A'}"
             JSON="${JSON//$'\r'/'%0D'}"
