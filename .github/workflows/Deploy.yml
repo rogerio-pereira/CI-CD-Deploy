@@ -5,6 +5,8 @@ on:
   pull_request:
     branches:
       - master
+env:
+  CONFIG: ${{ secrets.DEPLOYMENT_SERVERS }}
       
 jobs:
   run-tests:
@@ -42,8 +44,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: run-tests
-    env:
-      CONFIG: ${{ secrets.DEPLOYMENT_SERVERS }}
     strategy:
       matrix: ${{ fromJSON(env.CONFIG) }}
     steps:
