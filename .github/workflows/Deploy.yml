@@ -51,6 +51,7 @@ jobs:
       - name: Export deployment matrix
         id: export-servers
         run: |
+            echo pwd
             JSON="$(cat ./servers.json)"
             JSON="${JSON//'%'/'%25'}"
             JSON="${JSON//$'\n'/'%0A'}"
