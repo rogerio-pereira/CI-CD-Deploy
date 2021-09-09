@@ -30,12 +30,12 @@ jobs:
       - name: Generate key
         run: php artisan key:generate
         
-      - name: Clear Cachem Config and Views
+      - name: Clear Cache, Config and Views
         run: |
           php artisan cache:clear
           php artisan config:clear
           php artisan view:clear
-          php arttisan config:cache
+          php artisan config:cache
         
       - name: Run tests
         run: php artisan test
