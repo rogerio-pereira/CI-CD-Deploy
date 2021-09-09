@@ -1,15 +1,7 @@
 [
     {
         "name": "server-1",
-        "ip": "54.235.58.251",
-        "username": "ubuntu",
-        "port": "22",
-        "git_path": "/var/git/storage.git",
-        "app_path": "/var/git/repo"
-    },
-    {
-        "name": "server-1",
-        "ip": "54.235.58.251",
+        "host": "75.101.170.204",
         "username": "ubuntu",
         "port": "22",
         "git_path": "/var/git/storage.git",
