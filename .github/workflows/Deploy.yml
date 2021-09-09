@@ -35,6 +35,9 @@ jobs:
         
       - name: Generate key
         run: php artisan key:generate
+      
+      - name: Run tests
+        run: php artisan test
         
       - name: Create deployment artifact
         run: tar -czf app.tar.gz --exclude=*.git --exclude=node_modules --exclude=tests --exclude=vendor *
@@ -44,17 +47,7 @@ jobs:
         with:
           name: app-build
           path: app.tar.gz
-          retention-days: 1
-        
-  run-tests:
-    runs-on: ubuntu-lat
-    name: Run Tests
-    needs: create-artifacts
-    steps:
-      - uses: actions/checkout@v2
-      
-      - name: Run tests
-        run: php artisan test
+          retention-days: 1      
         
   get-config-settings:
     runs-on: ubuntu-latest
