@@ -88,14 +88,14 @@ jobs:
       - name: Upload
         uses: appleboy/scp-action@master
         with:
-            host: ${{ matrix.server.ip }}
+            host: ${{ matrix.server.host }}
             username: ${{ matrix.server.username }}
             key: ${{ secrets.SSH_KEY }}
             port: ${{ matrix.server.port }}
-            source: ${{ github.sha }}.tar.gz
-            target: ${{ matrix.server.path }}/artifacts
+            source: app.tar.gz
+            target: ${{ matrix.server.app_path }}
     
-      - name: Setup Docker in server
+      - name: Extract files, Setup Docker an run docker
         uses: appleboy/ssh-action@master
         with:
           host: ${{ matrix.server.host }}
@@ -103,6 +103,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ matrix.server.port }}
           script: |
+            tar xzf ${{ matrix.server.path }}/app.tar.gz
+            rm ${{ matrix.server.path }}/app.tar.gz
             sudo apt-get update
             sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
             curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
