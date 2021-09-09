@@ -4,7 +4,7 @@
         "host": "75.101.170.204",
         "username": "ubuntu",
         "port": "22",
-        "git_path": "/var/git/storage.git",
-        "app_path": "/var/git/repo"
+        "app_path": "/var/repo",
+        "container": "ci_cd_project"
     }
 ]
