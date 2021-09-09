@@ -1,0 +1,53 @@
+version: "3.7"
+services: 
+    #Project
+    ci_cd_project:
+        build: 
+            args: 
+                user: storage_project   #Will be used in Dockerfile
+                uid: 1000               #Will be used in Dockerfile
+            context: ./
+            dockerfile: Dockerfile
+        image: ci_cd_project
+        restart: unless-stopped
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        networks:
+            - ci_cd_project
+
+    #nginx
+    nginx:
+        image: nginx:alpine
+        restart: unless-stopped
+        ports:
+            - ${APP_PORT}:80
+            - 443:443
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/:/etc/nginx/conf.d
+        networks:
+            - ci_cd_project
+
+    #mysql
+    #comment if using AWS RDS
+    mysql:
+        image: mysql:5.7.22
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+        ports:
+            - ${FORWARD_DB_PORT}:3306
+        volumes:
+            - ./.docker/mysql/db_data:/var/lib/mysql
+        networks:
+            - ci_cd_project
+    
+networks:
+    ci_cd_project:
+        driver: bridge    
+
+        
