@@ -5,9 +5,6 @@ on:
   pull_request:
     branches:
       - master
-
-env: 
-  CONFIG: ${{ secrets.DEPLOYMENT_SERVERS }}
       
 jobs:
   run-tests:
@@ -69,4 +66,4 @@ jobs:
     steps:
       - name: Log into server
         run:
-          echo matrix.server.name
+          echo "OK
