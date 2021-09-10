@@ -26,7 +26,7 @@ RUN n stable
 RUN apt-get clean && rm -fr /var/lib/apt/lists/*
 
 #Install php extensions
-RUN docker-php-ext-install mbstring ctype fileinfo openssl PDO bcmath json tokenizer xml zip sqlite3
+RUN docker-php-ext-install mbstring ctype fileinfo openssl pdo_mysql bcmath json tokenizer xml zip sqlite3
 
 #Get latest composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
