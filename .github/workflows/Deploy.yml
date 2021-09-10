@@ -187,4 +187,4 @@ jobs:
             sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "npm run prod"
             sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan storage:link"
             sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan migrate"
-#            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan db:seed --class=UserSeeder"
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan db:seed"
