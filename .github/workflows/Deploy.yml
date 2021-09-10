@@ -99,6 +99,7 @@ jobs:
           port: ${{ matrix.server.port }}
           script: |
             echo "Extracting file"
+            mkdir ${{ matrix.server.app_path }}
             sudo tar xzf ${{ matrix.server.upload_path }}/app.tar.gz -C ${{ matrix.server.app_path }}
 
       - name: Remove zip file
