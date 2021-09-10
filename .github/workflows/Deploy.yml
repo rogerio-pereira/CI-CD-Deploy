@@ -146,7 +146,7 @@ jobs:
           script: |
             echo "Create .env file"
             cd ${{ matrix.server.app_path }}
-            printf "%s" "$LARAVEL_ENV" > "${BASE_PATH}/.env"
+            printf "%s" "$ENV_FILE" > "${BASE_PATH}/.env"
             
       - name: Starting docker
         uses: appleboy/ssh-action@master
