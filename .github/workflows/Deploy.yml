@@ -144,6 +144,8 @@ jobs:
             sudo chown -R ${{ matrix.server.username }}:www-data .
             sudo find . -type f -exec chmod 664 {} \;   
             sudo find . -type d -exec chmod 775 {} \;
+            sudo chgrp -R www-data storage ${{ matrix.server.app_path }}/bootstrap/cache
+            sudo chmod -R ug+rwx storage ${{ matrix.server.app_path }}/bootstrap/cache
 
       - name: Create .env file
         uses: appleboy/ssh-action@master
