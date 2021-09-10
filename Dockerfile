@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
     npm
 
 #Update node
-RUN npm cache clean
+#RUN npm cache clean
 RUN npm install -g n
 RUN sudo n stable
 
