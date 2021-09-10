@@ -136,7 +136,7 @@ jobs:
       - name: Create .env file
         uses: appleboy/ssh-action@master
         env:
-          LARAVEL_ENV: ${{ secrets.LARAVEL_ENV }}
+          ENV_FILE: ${{ secrets.LARAVEL_ENV }}
         with:
           host: ${{ matrix.server.host }}
           username: ${{ matrix.server.username }}
@@ -145,8 +145,20 @@ jobs:
           script: |
             echo "Create .env file"
             cd ${{ matrix.server.app_path }}
-            printf "%s" $LARAVEL_ENV > ${{ matrix.server.app_path }}/.env
+            echo "$ENV_FILE" > .env
             
+      - name: Starting docker
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ matrix.server.host }}
+          username: ${{ matrix.server.username }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ matrix.server.port }}
+          script: |
+            echo "Starting docker"
+            cd ${{ matrix.server.app_path }}
+            sudo docker-compose up -d --build
+
       - name: Run commands inside docker
         uses: appleboy/ssh-action@master
         with:
@@ -155,13 +167,10 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ matrix.server.port }}
           script: |
-            echo "Run commands inside docker"
-            cd ${{ matrix.server.app_path }}
-            docker-compose up -d --build
             echo "Running commands inside docker"
-            docker-compose run ${{ matrix.server.container }} /bin/bash -c "composer install"
-            docker-compose run ${{ matrix.server.container }} /bin/bash -c "npm install"
-            docker-compose run ${{ matrix.server.container }} /bin/bash -c "npm run prod"
-            docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan storage:link"
-            docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan migrate"
-            docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan db:seed --class=UserSeeder"
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "composer install"
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "npm install"
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "npm run prod"
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan storage:link"
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan migrate"
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan db:seed --class=UserSeeder"
