@@ -1,7 +1,7 @@
 [
     {
         "name": "server-1",
-        "host": "54.147.0.186",
+        "host": "34.227.10.161",
         "username": "ubuntu",
         "port": "22",
         "upload_path": "/tmp",
