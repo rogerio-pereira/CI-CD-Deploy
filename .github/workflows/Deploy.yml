@@ -130,6 +130,20 @@ jobs:
             sudo groupadd docker
             sudo usermod -aG docker ${{ matrix.server.username }}
             sudo service docker start
+            
+      - name: Set folder permissions
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ matrix.server.host }}
+          username: ${{ matrix.server.username }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ matrix.server.port }}
+          script: |
+            echo "Set folder permissions"
+            cd ${{ matrix.server.app_path }}
+            sudo chown -R ${{ matrix.server.username }}:www-data .
+            sudo find . -type f -exec chmod 664 {} \;   
+            sudo find . -type d -exec chmod 775 {} \;
 
       - name: Create .env file
         uses: appleboy/ssh-action@master
@@ -157,21 +171,6 @@ jobs:
             echo "Starting docker"
             cd ${{ matrix.server.app_path }}
             sudo docker-compose up -d --build
-            
-      - name: Set folder permissions
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ matrix.server.host }}
-          username: ${{ matrix.server.username }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ matrix.server.port }}
-          script: |
-            echo "Set folder permissions"
-            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "sudo chown -R www-data:www-data /var/www"
-            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "sudo usermod -a -G www-data ${{ matrix.server.user }}"
-            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "sudo find /var/www -type f -exec chmod 644 {} \; "
-            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "sudo find /var/www -type d -exec chmod 755 {} \;"
-            sudo chown -R www-data:www-data ${{ matrix.server.app_path }}
             
       - name: Run commands inside docker
         uses: appleboy/ssh-action@master
