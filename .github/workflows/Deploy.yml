@@ -110,6 +110,7 @@ jobs:
           username: ${{ matrix.server.username }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ matrix.server.port }}
+          envs: LARAVEL_ENV
           script: |
             echo "Remove zip file"
             sudo rm ${{ matrix.server.upload_path }}//app.tar.gz
