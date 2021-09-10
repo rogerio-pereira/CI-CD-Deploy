@@ -103,14 +103,11 @@ jobs:
 
       - name: Remove zip file
         uses: appleboy/ssh-action@master
-        env:
-          LARAVEL_ENV: ${{ secrets.LARAVEL_ENV }}
         with:
           host: ${{ matrix.server.host }}
           username: ${{ matrix.server.username }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ matrix.server.port }}
-          envs: LARAVEL_ENV
           script: |
             echo "Remove zip file"
             sudo rm ${{ matrix.server.upload_path }}//app.tar.gz
@@ -137,16 +134,17 @@ jobs:
       - name: Create .env file
         uses: appleboy/ssh-action@master
         env:
-          ENV_FILE: ${{ secrets.LARAVEL_ENV }}
+          LARAVEL_ENV: ${{ secrets.LARAVEL_ENV }}
         with:
           host: ${{ matrix.server.host }}
           username: ${{ matrix.server.username }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ matrix.server.port }}
+          envs: LARAVEL_ENV
           script: |
             echo "Create .env file"
             cd ${{ matrix.server.app_path }}
-            printf "%s" "$ENV_FILE" > "${{ matrix.server.app_path }}/.env"
+            printf "%s" "$LARAVEL_ENV" > "${{ matrix.server.app_path }}/.env"
             
       - name: Starting docker
         uses: appleboy/ssh-action@master
