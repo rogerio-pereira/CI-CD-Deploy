@@ -13,7 +13,9 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libzip-dev \
     zip \
-    unzip
+    unzip \
+    nodejs \
+    npm
 
 #Clear cache
 RUN apt-get clean && rm -fr /var/lib/apt/lists/*
