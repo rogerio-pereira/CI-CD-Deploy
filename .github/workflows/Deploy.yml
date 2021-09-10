@@ -157,7 +157,21 @@ jobs:
             echo "Starting docker"
             cd ${{ matrix.server.app_path }}
             sudo docker-compose up -d --build
-
+            
+      - name: Set folder permissions
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ matrix.server.host }}
+          username: ${{ matrix.server.username }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ matrix.server.port }}
+          script: |
+            echo "Set folder permissions"
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "sudo chown -R www-data:www-data ${{ matrix.server.app_path }}"
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "sudo usermod -a -G www-data ${{ matrix.server.v }}"
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "udo find ${{ matrix.server.app_path }} -type f -exec chmod 644 {} \; "
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "sudo find ${{ matrix.server.app_path }} -type d -exec chmod 755 {} \;"
+            
       - name: Run commands inside docker
         uses: appleboy/ssh-action@master
         with:
