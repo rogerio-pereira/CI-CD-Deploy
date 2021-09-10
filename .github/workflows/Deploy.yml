@@ -167,10 +167,11 @@ jobs:
           port: ${{ matrix.server.port }}
           script: |
             echo "Set folder permissions"
-            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "sudo chown -R www-data:www-data ${{ matrix.server.app_path }}"
-            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "sudo usermod -a -G www-data ${{ matrix.server.v }}"
-            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "udo find ${{ matrix.server.app_path }} -type f -exec chmod 644 {} \; "
-            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "sudo find ${{ matrix.server.app_path }} -type d -exec chmod 755 {} \;"
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "sudo chown -R www-data:www-data /var/www"
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "sudo usermod -a -G www-data ${{ matrix.server.user }}"
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "sudo find /var/www -type f -exec chmod 644 {} \; "
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "sudo find /var/www -type d -exec chmod 755 {} \;"
+            sudo chown -R www-data:www-data ${{ matrix.server.app_path }}
             
       - name: Run commands inside docker
         uses: appleboy/ssh-action@master
