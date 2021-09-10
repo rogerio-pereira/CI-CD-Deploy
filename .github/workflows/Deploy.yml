@@ -108,10 +108,10 @@ jobs:
             sudo usermod -aG docker ${{ matrix.server.username }}
             sudo service docker start
             cd /var/www
-            docker-compose up -d --build
-            docker-compose run ${{ matrix.server.container }} /bin/bash -c "composer install"
-            docker-compose run ${{ matrix.server.container }} /bin/bash -c "npm install"
-            docker-compose run ${{ matrix.server.container }} /bin/bash -c "npm run prod"
-            docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan storage:link"
-            docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan migrate"
+#           docker-compose up -d --build
+#            docker-compose run ${{ matrix.server.container }} /bin/bash -c "composer install"
+#            docker-compose run ${{ matrix.server.container }} /bin/bash -c "npm install"
+#            docker-compose run ${{ matrix.server.container }} /bin/bash -c "npm run prod"
+#            docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan storage:link"
+#            docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan migrate"
 #           docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan db:seed --class=UserSeeder"
