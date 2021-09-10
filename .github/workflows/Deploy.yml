@@ -88,8 +88,10 @@ jobs:
             source: app.tar.gz
             target: ${{ matrix.server.upload_path }}
     
-      - name: Extract files, Setup Docker an run docker
+      - name: Extract zip file
         uses: appleboy/ssh-action@master
+        env:
+          LARAVEL_ENV: ${{ secrets.LARAVEL_ENV }}
         with:
           host: ${{ matrix.server.host }}
           username: ${{ matrix.server.username }}
@@ -98,9 +100,29 @@ jobs:
           script: |
             echo "Extracting file"
             sudo tar xzf ${{ matrix.server.upload_path }}/app.tar.gz -C ${{ matrix.server.app_path }}
-            echo "Removing file"
+
+      - name: Remove zip file
+        uses: appleboy/ssh-action@master
+        env:
+          LARAVEL_ENV: ${{ secrets.LARAVEL_ENV }}
+        with:
+          host: ${{ matrix.server.host }}
+          username: ${{ matrix.server.username }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ matrix.server.port }}
+          script: |
+            echo "Remove zip file"
             sudo rm ${{ matrix.server.upload_path }}//app.tar.gz
-            echo "Instaling docker"
+
+      - name: Installs Docker
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ matrix.server.host }}
+          username: ${{ matrix.server.username }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ matrix.server.port }}
+          script: |
+            echo "Remove zip file"
             sudo apt-get update
             sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
             sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -110,9 +132,31 @@ jobs:
             sudo groupadd docker
             sudo usermod -aG docker ${{ matrix.server.username }}
             sudo service docker start
-            echo "Starting docker"
+
+      - name: Create .env file
+        uses: appleboy/ssh-action@master
+        env:
+          LARAVEL_ENV: ${{ secrets.LARAVEL_ENV }}
+        with:
+          host: ${{ matrix.server.host }}
+          username: ${{ matrix.server.username }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ matrix.server.port }}
+          script: |
+            echo "Create .env file"
             cd ${{ matrix.server.app_path }}
-            echo ${{ secrets.LARAVEL_ENV }} > .env
+            printf "%s" "$LARAVEL_ENV" > "${{ matrix.server.app_path }}/.env"
+            
+      - name: Run commands inside docker
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ matrix.server.host }}
+          username: ${{ matrix.server.username }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ matrix.server.port }}
+          script: |
+            echo "Run commands inside docker"
+            cd ${{ matrix.server.app_path }}
             docker-compose up -d --build
             echo "Running commands inside docker"
             docker-compose run ${{ matrix.server.container }} /bin/bash -c "composer install"
