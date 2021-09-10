@@ -181,6 +181,7 @@ jobs:
           port: ${{ matrix.server.port }}
           script: |
             echo "Running commands inside docker"
+            cd ${{ matrix.server.app_path }}
             sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "composer install"
             sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "npm install"
             sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "npm run prod"
