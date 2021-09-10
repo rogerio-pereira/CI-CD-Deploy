@@ -112,6 +112,7 @@ jobs:
             sudo service docker start
             echo "Starting docker"
             cd ${{ matrix.server.app_path }}
+            echo ${{ secrets.LARAVEL_ENV }} > .env
             docker-compose up -d --build
             echo "Running commands inside docker"
             docker-compose run ${{ matrix.server.container }} /bin/bash -c "composer install"
