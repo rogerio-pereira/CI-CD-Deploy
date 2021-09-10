@@ -4,6 +4,7 @@
         "host": "54.198.100.17",
         "username": "ubuntu",
         "port": "22",
+        "upload_path": "/tmp",
         "app_path": "/home/ubuntu/repo",
         "container": "ci_cd_project"
     }
