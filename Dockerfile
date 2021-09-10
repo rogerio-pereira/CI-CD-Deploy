@@ -14,10 +14,13 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     unzip \
+    nodejs \
+    npm
 
-#Install node
-RUN curl -fsSL https://deb.nodesource.com/setup_12.x | bash -
-RUN apt-get install -y nodejs npm
+#Update node
+RUN npm cache clean -f
+RUN npm install -g n
+RUN sudo n stable
 
 #Clear cache
 RUN apt-get clean && rm -fr /var/lib/apt/lists/*
