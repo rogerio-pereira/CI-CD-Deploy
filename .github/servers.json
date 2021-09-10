@@ -4,7 +4,7 @@
         "host": "54.198.100.17",
         "username": "ubuntu",
         "port": "22",
-        "app_path": "/var/repo",
+        "app_path": "/home/ubuntu/repo",
         "container": "ci_cd_project"
     }
 ]
