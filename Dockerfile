@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
 #Update node
 #RUN npm cache clean
 RUN npm install -g n
-RUN sudo n stable
+RUN n stable
 
 #Clear cache
 RUN apt-get clean && rm -fr /var/lib/apt/lists/*
