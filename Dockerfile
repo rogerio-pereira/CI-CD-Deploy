@@ -14,8 +14,10 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     unzip \
-    nodejs \
-    npm
+
+#Install node
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - 
+RUN apt-get install -y nodejs npm
 
 #Clear cache
 RUN apt-get clean && rm -fr /var/lib/apt/lists/*
