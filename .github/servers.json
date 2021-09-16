@@ -7,5 +7,23 @@
         "upload_path": "/tmp",
         "app_path": "/home/ubuntu/repo",
         "container": "ci_cd_project"
+    },
+    {
+        "name": "server-1",
+        "host": "3.91.35.124",
+        "username": "ubuntu",
+        "port": "22",
+        "upload_path": "/tmp",
+        "app_path": "/home/ubuntu/repo",
+        "container": "ci_cd_project"
+    },
+    {
+        "name": "server-1",
+        "host": "54.147.226.149",
+        "username": "ubuntu",
+        "port": "22",
+        "upload_path": "/tmp",
+        "app_path": "/home/ubuntu/repo",
+        "container": "ci_cd_project"
     }
 ]
