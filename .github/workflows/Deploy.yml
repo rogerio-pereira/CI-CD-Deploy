@@ -89,7 +89,7 @@ jobs:
         
   deploy:
     runs-on: ubuntu-latest
-    needs: [app-down, create-artifacts]
+    needs: [get-config-settings, app-down, create-artifacts]
     strategy:
       matrix: 
         server: ${{ fromJson(needs.get-config-settings.outputs.servers) }}
