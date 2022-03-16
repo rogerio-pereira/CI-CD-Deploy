@@ -1,7 +1,7 @@
 [
     {
         "name": "server-1",
-        "host": "${{ secrets.HOST1 }}",
+        "host": "34.224.80.156",
         "username": "ubuntu", 
         "port": "22",
         "upload_path": "/tmp",
