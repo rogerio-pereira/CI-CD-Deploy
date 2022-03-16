@@ -1,8 +1,8 @@
 [
     {
         "name": "server-1",
-        "host": "54.173.187.184",
-        "username": "ubuntu",
+        "host": ${{ secrets.HOST1}},
+        "username": ${{ secrets.USERNAME1 }},
         "port": "22",
         "upload_path": "/tmp",
         "app_path": "/home/ubuntu/repo",
