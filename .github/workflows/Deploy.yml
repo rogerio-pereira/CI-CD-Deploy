@@ -16,7 +16,7 @@ jobs:
       
       - name: Compile CSS and Javascript
         run: |
-          npm install
+          npm ci
           npm run prod
       
       - name: Configure PHP 7.4
@@ -209,7 +209,7 @@ jobs:
             cd ${{ matrix.server.app_path }}
             sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "composer install"
             sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan key:generate"
-            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "npm install"
+            sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "npm ci"
             sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "npm run prod"
             sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan storage:link"
             sudo docker-compose run ${{ matrix.server.container }} /bin/bash -c "php artisan migrate"
